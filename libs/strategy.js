@@ -5,11 +5,11 @@ const db = require('../models');
 
 module.exports = () => {
   passport.use(
-    new Basic(async function (login, senha, done) {
+    new Basic(async function (email, password, done) {
       try {
-        console.log(login);
-        const usuario = await db.Users.findOne({ where: { login: login } });
-        if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
+        console.log(email);
+        const usuario = await db.Users.findOne({ where: { email: email } });
+        if (!usuario || !(await bcrypt.compare(password, usuario.password))) {
           return done(null, false);
         }
 
