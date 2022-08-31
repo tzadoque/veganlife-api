@@ -10,7 +10,7 @@ module.exports = () => {
     .use(express.urlencoded({ extended: true }))
     .use(cors());
 
-  consign().include('routers').into(app);
+  consign().include('libs').include('routers').into(app);
 
   return app;
 };

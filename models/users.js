@@ -1,7 +1,7 @@
 'use strict';
+const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
 
-const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     /**
@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   Users.init(
     {
       name: DataTypes.STRING,
-      role: DataTypes.ENUM('manager', 'seller', 'cashier'),
-      active: DataTypes.BOOLEAN,
-      login: DataTypes.STRING,
-      senha: DataTypes.STRING,
+      last_name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      profile_picture: DataTypes.STRING,
     },
     {
       sequelize,
@@ -28,14 +28,14 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Users.beforeCreate(async (user, options) => {
-    const hash = await bcrypt.hash(user.senha, 12);
-    user.senha = hash;
+    const hash = await bcrypt.hash(user.password, 12);
+    user.password = hash;
   });
 
   Users.beforeUpdate(async (user, options) => {
-    if (user.changed('senha')) {
-      const hash = await bcrypt.hash(user.senha, 12);
-      user.senha = hash;
+    if (user.changed('password')) {
+      const hash = await bcrypt.hash(user.password, 12);
+      user.password = hash;
     }
   });
 

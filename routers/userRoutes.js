@@ -1,8 +1,13 @@
 const passport = require('passport');
 const UserController = require('../controllers/userController');
+const strategy = require('../libs/middlewares-strategy');
 
 module.exports = app => {
-  app.get('/users', UserController.findAll);
+  app.get(
+    '/auth/login',
+    passport.authenticate('basic', { session: false }),
+    UserController.login
+  );
 
   app.route('/users').get(UserController.findAll).post(UserController.create);
 
@@ -11,11 +16,4 @@ module.exports = app => {
     .get(UserController.findById)
     .put(UserController.update)
     .delete(UserController.delete);
-
-  app
-    .route('/users/login')
-    .get(
-      passport.authenticate('basic', { session: false }),
-      UserController.login
-    );
 };

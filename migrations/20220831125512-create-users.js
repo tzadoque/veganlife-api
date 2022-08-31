@@ -11,11 +11,17 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      role: {
-        type: Sequelize.ENUM('manager', 'seller', 'cashier')
+      last_name: {
+        type: Sequelize.STRING
       },
-      active: {
-        type: Sequelize.BOOLEAN
+      email: {
+        type: Sequelize.STRING
+      },
+      password: {
+        type: Sequelize.STRING
+      },
+      profile_picture: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

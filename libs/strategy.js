@@ -1,18 +1,15 @@
 const passport = require('passport');
-const Users = require('../models').Users;
-const bcrypt = require('bcrypt');
-
 const Basic = require('passport-http').BasicStrategy;
-// const Bearer = require('passport-http-bearer').Strategy;
+const bcrypt = require('bcrypt');
+const db = require('../models');
 
 module.exports = () => {
   passport.use(
     new Basic(async function (login, senha, done) {
       try {
-        const usuario = await Users.findOne({ where: { login: login } });
-        const validacaoSenha = await bcrypt.compare(senha, usuario.senha);
-
-        if (!usuario || !validacaoSenha) {
+        console.log(login);
+        const usuario = await db.Users.findOne({ where: { login: login } });
+        if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
           return done(null, false);
         }
 
@@ -22,6 +19,4 @@ module.exports = () => {
       }
     })
   );
-
-  // passport.use(new Bearer((token, done) => {}));
 };

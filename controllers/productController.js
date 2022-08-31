@@ -1,14 +1,10 @@
 const db = require('../models');
 
-class UserController {
-  static login = async (req, res) => {
-    res.status(204).send('Autenticado');
-  };
-
+class ProductController {
   static findAll = async (req, res) => {
     try {
-      const users = await db.Users.findAll();
-      return res.status(200).json(users);
+      const products = await db.Products.findAll();
+      return res.status(200).json(products);
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -19,8 +15,8 @@ class UserController {
     console.log(req.body);
 
     try {
-      const user = await db.Users.create(json);
-      return res.status(200).json(user);
+      const product = await db.Products.create(json);
+      return res.status(200).json(product);
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -30,13 +26,13 @@ class UserController {
     const { id } = req.params;
 
     try {
-      const user = await db.Users.findOne({
+      const product = await db.Products.findOne({
         where: {
           id: Number(id),
         },
       });
 
-      return res.status(200).json(user);
+      return res.status(200).json(product);
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -47,20 +43,20 @@ class UserController {
     const json = req.body;
 
     try {
-      await db.Users.update(json, {
+      await db.products.update(json, {
         where: {
           id: Number(id),
         },
         individualHooks: true,
       });
 
-      const user = await db.Users.findOne({
+      const product = await db.Products.findOne({
         where: {
           id: Number(id),
         },
       });
 
-      return res.status(200).json(user);
+      return res.status(200).json(product);
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -70,16 +66,16 @@ class UserController {
     const { id } = req.params;
 
     try {
-      await db.Users.destroy({
+      await db.Products.destroy({
         where: {
           id: Number(id),
         },
       });
-      return res.status(200).json({ mensagem: `Usuário ${id} apagado!` });
+      return res.status(200).json({ mensagem: `Produto ${id} apagado!` });
     } catch (e) {
       return res.status(500).json(e.message);
     }
   };
 }
 
-module.exports = UserController;
+module.exports = ProductController;
